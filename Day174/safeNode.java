@@ -1,18 +1,26 @@
-class Solution
-{
-        
-    long power(int N,int R)
-    {
-       long mod = 1000000007;
-       if(R==1){
-           return N%mod;
-       }
-       long answer = power(N,R/2);
-       answer = (answer*answer)%mod;
-       if(R%2==1){
-           answer = (answer*N)%mod;
-       }
-       return answer;
+class Solution {
+    public boolean safe(int[][] graph, int node, int visit[]){
+        if(visit[node]!=0){
+            return visit[node]==2;
+        }
+        visit[node] = 1;
+        for(int i:graph[node]){
+            if(!safe(graph, i, visit)){
+                return false;
+            }
+        }
+        visit[node] = 2;
+        return true;
     }
-
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        List<Integer> answer = new ArrayList<>();
+        int len = graph.length;
+        int[] visit = new int[len];
+        for(int i=0;i<len;i++){
+            if(safe(graph, i, visit)){
+                answer.add(i);
+            }
+        }
+        return answer;
+    }
 }
